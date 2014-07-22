@@ -106,7 +106,7 @@ class PingBot(sleekxmpp.ClientXMPP):
         timestamp = time.strftime("%a, %d %b %Y at %H:%M:%S UTC", time.gmtime())
         separator = u"\u0023" * 6 + " PING " + u"\u0023" * 6
 
-        if command[0].lower() == '!ping':
+        if command[0].lower() == '!ping' or command[0].lower() == '!p':
             params = re.split(" ", command[1], 1)
             self.send_message(mto="%s@%s" % (params[0], settings.OPENFIRE_BROADCAST_SERVICENAME),
                               mbody="\n%s\n\nMessage: %s\nSent from user %s to group %s on %s\n\n%s" % (separator,
@@ -115,10 +115,21 @@ class PingBot(sleekxmpp.ClientXMPP):
                                                                                                         params[0],
                                                                                                         timestamp,
 									                                                                    separator))
-        elif command[0].lower() == '!help':
+
+        elif command[0].lower() == '!help' or command[0].lower() == '!h':
             self.send_message(mto=msg['from'].bare,
                               mbody="Type !ping group_name yourmessage to ping.",
                               mtype='groupchat')
+
+        elif command[0].lower() == '!majestic':
+            self.send_message(mto=msg['from'].bare,
+                              mbody="Holy shit, this is amazing",
+                              mtype='groupchat')
+
+        elif command[0].lower() == '!msg' or command[0].lower() == '!m':
+            params = re.split(" ", command[1], 1)
+            self.send_message(mto="%s@bohicaempire.com" % (params[0]),
+                              mbody="Message: %s\nFrom: %s" % (params[1], msg['mucnick']))
 
     def muc_online(self, presence):
         """
