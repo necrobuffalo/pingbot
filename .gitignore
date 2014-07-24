@@ -1,2 +1,4 @@
+venv/
 env/
 sftp-config.json
+docs/_build/
