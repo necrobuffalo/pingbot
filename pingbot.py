@@ -108,7 +108,12 @@ class PingBot(sleekxmpp.ClientXMPP):
 
         if command[0].lower() == '!ping' or command[0].lower() == '!p':
             params = re.split(" ", command[1], 1)
-            self.send_message(mto="%s@%s" % (params[0], settings.OPENFIRE_BROADCAST_SERVICENAME),
+            if len(re.findall("\w+", params[0])) > 1:
+                self.send_message(mto=msg['from'].bare,
+                                  mbody="That is not a valid group name.",
+                                  mtype='groupchat')
+            else:
+                self.send_message(mto="%s@%s" % (params[0], settings.OPENFIRE_BROADCAST_SERVICENAME),
                               mbody="\n%s\n\nMessage: %s\nSent from user %s to group %s on %s\n\n%s" % (separator,
 									                                                                    params[1],
                                                                                                         msg['mucnick'],
