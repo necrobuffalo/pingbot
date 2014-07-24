@@ -30,5 +30,5 @@ python runbot.py
 
 Contributors
 ----
-Emma Barber/Taron Skeldara (https://github.com/necrobuffalo)
-Mr Majestic
+* Emma Barber/Taron Skeldara (https://github.com/necrobuffalo)
+* Mr Majestic
