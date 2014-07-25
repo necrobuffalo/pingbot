@@ -9,15 +9,19 @@ Pingbot is an XMPP bot for pinging users on an Openfire-based jabber server usin
 Installation
 ----
 Ensure you have Python 3.4, virtualenv, and git installed.
+
+Download the development version.
+```bash
+git clone https://github.com/necrobuffalo/pingbot.git
+```
 Create and activate a virtualenv.
 ```bash
+cd pingbot
 virtualenv venv
 venv/bin/activate
 ```
-Download the development version and install dependencies.
+Install dependencies.
 ```bash
-git clone https://github.com/necrobuffalo/pingbot.git
-cd pingbot
 pip install -r requirements.txt
 ```
 Edit settings.py as appropriate for your setup.
