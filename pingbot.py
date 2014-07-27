@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-    SleekXMPP: The Sleek XMPP Library
-    Copyright (C) 2010  Nathanael C. Fritz
-    This file is part of SleekXMPP.
+    Pingbot
+    Copyright (C) 2014 Emma Barber
 
-    See the file LICENSE for copying permission.
+    This is the main pingbot file.
 """
 
 import time
@@ -31,9 +30,8 @@ else:
 class PingBot(sleekxmpp.ClientXMPP):
 
     """
-    A simple SleekXMPP bot that will greets those
-    who enter the room, and acknowledge any messages
-    that mentions the bot's nickname.
+    A simple SleekXMPP bot that will respond to commands prefixed with an
+    exclamation point.
     """
 
     def __init__(self, jid, password, room, nick):
@@ -64,9 +62,7 @@ class PingBot(sleekxmpp.ClientXMPP):
         """
         Process the session_start event.
 
-        Typical actions for the session_start event are
-        requesting the roster and broadcasting an initial
-        presence stanza.
+        Requests the roster and broadcasts an initial presence stanza.
 
         Arguments:
             event -- An empty dictionary. The session_start
@@ -88,14 +84,11 @@ class PingBot(sleekxmpp.ClientXMPP):
         message stanzas may be processed by both handlers, so check
         the 'type' attribute when using a 'message' event handler.
 
-        If a ping request is received, broadcast to the appropriate groups.
-
         IMPORTANT: Always check that a message is not from yourself,
                    otherwise you will create an infinite loop responding
                    to your own messages.
 
-        This handler will reply to messages that mention
-        the bot's nickname.
+        If a ping request is received, broadcast to the appropriate groups.
 
         Arguments:
             msg -- The received message stanza. See the documentation
@@ -135,21 +128,3 @@ class PingBot(sleekxmpp.ClientXMPP):
             params = re.split(" ", command[1], 1)
             self.send_message(mto="%s@bohicaempire.com" % (params[0]),
                               mbody="Message: %s\nFrom: %s" % (params[1], msg['mucnick']))
-
-    def muc_online(self, presence):
-        """
-        Process a presence stanza from a chat room. In this case,
-        presences from users that have just come online are
-        handled by sending a welcome message that includes
-        the user's nickname and role in the room.
-
-        Arguments:
-            presence -- The received presence stanza. See the
-                        documentation for the Presence stanza
-                        to see how else it may be used.
-        """
-        if presence['muc']['nick'] != self.nick:
-            self.send_message(mto=presence['from'].bare,
-                              mbody="Hello, %s %s" % (presence['muc']['role'],
-                                                      presence['muc']['nick']),
-                              mtype='groupchat')
